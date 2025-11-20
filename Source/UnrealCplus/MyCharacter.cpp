@@ -2,6 +2,8 @@
 
 
 #include "MyCharacter.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -15,8 +17,18 @@ AMyCharacter::AMyCharacter()
 	if (SM.Succeeded())
 	{
 		GetMesh()->SetSkeletalMesh(SM.Object);
-		GetMesh()->SetRelativeLocationAndRotation(FVector(0.f, 0.f, -90.f), FRotator(0.f, -90.f, 0.f));
+		GetMesh()->SetRelativeLocationAndRotation(FVector(0.0, 0.0, -90.0), FRotator(0.0, -90.0, 0.0));
 	}
+
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+
+	CameraBoom->SetupAttachment(RootComponent);
+	FollowCamera->SetupAttachment(CameraBoom);
+
+
+	CameraBoom->SetRelativeLocationAndRotation(FVector(0.0, 0.0, 100.0), FRotator(-25.0, 0.0, 0.0));
+	CameraBoom->TargetArmLength = 400.f;
 }
 
 // Called when the game starts or when spawned

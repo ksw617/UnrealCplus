@@ -3,22 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "MyCharacter.generated.h"
+#include "GameFramework/Pawn.h"
+#include "MyPawn.generated.h"
 
 UCLASS()
-class UNREALCPLUS_API AMyCharacter : public ACharacter
+class UNREALCPLUS_API AMyPawn : public APawn
 {
-	GENERATED_BODY()
+	GENERATED_BODY()	
 private:
 	UPROPERTY(VisibleAnywhere)
-	class USpringArmComponent* CameraBoom;
-	UPROPERTY(VisibleAnywhere)
-	class UCameraComponent* FollowCamera;
+	UStaticMeshComponent* Mesh;
 
 public:
-	// Sets default values for this character's properties
-	AMyCharacter();
+	// Sets default values for this pawn's properties
+	AMyPawn();
 
 protected:
 	// Called when the game starts or when spawned
