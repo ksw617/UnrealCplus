@@ -15,6 +15,9 @@ private:
 	class USpringArmComponent* CameraBoom;
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* FollowCamera;
+private:
+	UPROPERTY(VisibleAnywhere)
+	class UAnimInstance* AnimInstance;
 
 public:
 	// Sets default values for this character's properties
@@ -30,5 +33,12 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+public:
+	void KeyUpDown(float Value);
+	void KeyLeftRight(float Value);
+	void KeyAttack();
+
+
 
 };

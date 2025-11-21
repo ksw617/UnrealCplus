@@ -29,6 +29,12 @@ AMyCharacter::AMyCharacter()
 
 	CameraBoom->SetRelativeLocationAndRotation(FVector(0.0, 0.0, 100.0), FRotator(-25.0, 0.0, 0.0));
 	CameraBoom->TargetArmLength = 400.f;
+
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animation/ABP_Player.ABP_Player_C'"));
+	if (AI.Succeeded())
+	{
+		GetMesh()->SetAnimClass(AI.Class);
+	}
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +55,27 @@ void AMyCharacter::Tick(float DeltaTime)
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis(TEXT("ForwardBackward"), this, &AMyCharacter::KeyUpDown);
+	PlayerInputComponent->BindAxis(TEXT("LeftRight"), this, &AMyCharacter::KeyLeftRight);
+
+	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed, this, &AMyCharacter::KeyAttack);
+	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &AMyCharacter::Jump);
+}
+
+void AMyCharacter::KeyUpDown(float Value)
+{
+	AddMovementInput(GetActorForwardVector(), Value, false);
+}
+
+void AMyCharacter::KeyLeftRight(float Value)
+{
+	AddMovementInput(GetActorRightVector(), Value, false);
+}
+
+void AMyCharacter::KeyAttack()
+{
+	UE_LOG(LogTemp, Log, TEXT("Attack"));
 
 }
 
